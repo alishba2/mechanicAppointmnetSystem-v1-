@@ -1,36 +1,36 @@
-const Appointment = require('../models/appointment');
+// const Appointment = require('../models/appointment');
 
-// Create new appointment
-exports.createAppointment = async (req, res) => {
-    try {
-        const { userId, mechanicId, date, timeSlot, service, status } = req.body;
+// // Create new appointment
+// exports.createAppointment = async (req, res) => {
+//     try {
+//         const { userId, mechanicId, date, timeSlot, service, status } = req.body;
 
-        // Create new appointment
-        const newAppointment = new Appointment({ userId, mechanicId, date, timeSlot, service, status });
-        await newAppointment.save();
+//         // Create new appointment
+//         const newAppointment = new Appointment({ userId, mechanicId, date, timeSlot, service, status });
+//         await newAppointment.save();
 
-        res.status(201).json({ message: 'Appointment created successfully', appointment: newAppointment });
-    } catch (err) {
-        res.status(500).json({ message: 'Server error', error: err.message });
-    }
-};
+//         res.status(201).json({ message: 'Appointment created successfully', appointment: newAppointment });
+//     } catch (err) {
+//         res.status(500).json({ message: 'Server error', error: err.message });
+//     }
+// };
 
-// Update appointment status
-exports.updateAppointmentStatus = async (req, res) => {
-    try {
-        const { appointmentId, status } = req.body;
+// // Update appointment status
+// exports.updateAppointmentStatus = async (req, res) => {
+//     try {
+//         const { appointmentId, status } = req.body;
 
-        // Update appointment status
-        const updatedAppointment = await Appointment.findByIdAndUpdate(appointmentId, { status }, { new: true });
+//         // Update appointment status
+//         const updatedAppointment = await Appointment.findByIdAndUpdate(appointmentId, { status }, { new: true });
 
-        res.json({ message: 'Appointment status updated successfully', appointment: updatedAppointment });
-    } catch (err) {
-        res.status(500).json({ message: 'Server error', error: err.message });
-    }
-};
+//         res.json({ message: 'Appointment status updated successfully', appointment: updatedAppointment });
+//     } catch (err) {
+//         res.status(500).json({ message: 'Server error', error: err.message });
+//     }
+// };
 
 
-const Appointment = require('../models/appointment');
+const Appointment = require('../models/appointmentModel');
 
 // Create new appointment
 exports.createAppointment = async (req, res) => {
