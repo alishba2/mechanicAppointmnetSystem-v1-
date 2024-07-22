@@ -1,12 +1,15 @@
 const User = require('../models/user');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const crypto = require('crypto');
+
 
 // Register new user
 exports.register = async (req, res) => {
     try {
-        const { username, email, password, role } = req.body;
 
+        const { username, email, password, role } = req.body;
+        // console.log(username, email, password, role)
         // Check if user exists
         const existingUser = await User.findOne({ email });
         if (existingUser) {
@@ -30,7 +33,7 @@ exports.register = async (req, res) => {
 exports.login = async (req, res) => {
     try {
         const { email, password } = req.body;
-
+        const secretKey = crypto.randomBytes(32).toString('hex'); // Generates a 256-bit (32-byte) key
         // Check if user exists
         const user = await User.findOne({ email });
         if (!user) {
@@ -44,10 +47,11 @@ exports.login = async (req, res) => {
         }
 
         // Create JWT
-        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+        const token = jwt.sign({ id: user._id },secretKey, { expiresIn: '1h' });
 
         res.json({ token, user: { id: user._id, username: user.username, email: user.email, role: user.role } });
     } catch (err) {
+        console.log(err)
         res.status(500).json({ message: 'Server error', error: err.message });
     }
 };
