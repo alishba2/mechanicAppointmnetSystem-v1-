@@ -47,7 +47,7 @@ exports.login = async (req, res) => {
         }
 
         // Create JWT
-        const token = jwt.sign({ id: user._id },secretKey, { expiresIn: '1h' });
+        const token = jwt.sign({ id: user._id }, secretKey, { expiresIn: '1h' });
 
         res.json({ token, user: { id: user._id, username: user.username, email: user.email, role: user.role } });
     } catch (err) {
@@ -74,6 +74,25 @@ exports.createOrUpdateProfile = async (req, res) => {
         }
 
         res.json({ message: 'Profile updated successfully', user: updatedUser });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Server error', error: err.message });
+    }
+};
+
+// Get user by ID
+exports.getUserById = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        // Find user by ID
+        const user = await User.findById(id);
+
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        res.json({ user });
     } catch (err) {
         console.error(err);
         res.status(500).json({ message: 'Server error', error: err.message });
