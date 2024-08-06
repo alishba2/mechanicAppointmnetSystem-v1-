@@ -57,9 +57,11 @@ exports.login = async (req, res) => {
 };
 
 // Create or Update Profile
+// In your backend file
 exports.createOrUpdateProfile = async (req, res) => {
     try {
         const { userId, ...profileData } = req.body;
+        console.log(req.body); // For debugging purposes
 
         // Validate userId
         if (!userId) {
@@ -67,7 +69,7 @@ exports.createOrUpdateProfile = async (req, res) => {
         }
 
         // Update user profile
-        const updatedUser = await User.findByIdAndUpdate(userId, profileData, { new: true, runValidators: true });
+        const updatedUser = await User.findByIdAndUpdate(userId, profileData, { new: true });
 
         if (!updatedUser) {
             return res.status(404).json({ message: 'User not found' });
@@ -79,6 +81,7 @@ exports.createOrUpdateProfile = async (req, res) => {
         res.status(500).json({ message: 'Server error', error: err.message });
     }
 };
+
 
 // Get user by ID
 exports.getUserById = async (req, res) => {
