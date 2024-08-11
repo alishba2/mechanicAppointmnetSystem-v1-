@@ -1,15 +1,13 @@
-const User = require('../models/user');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
-
+const User = require('../models/user');
 
 // Register new user
 exports.register = async (req, res) => {
     try {
-
         const { username, email, password, role } = req.body;
-        // console.log(username, email, password, role)
+
         // Check if user exists
         const existingUser = await User.findOne({ email });
         if (existingUser) {
@@ -34,6 +32,7 @@ exports.login = async (req, res) => {
     try {
         const { email, password } = req.body;
         const secretKey = crypto.randomBytes(32).toString('hex'); // Generates a 256-bit (32-byte) key
+
         // Check if user exists
         const user = await User.findOne({ email });
         if (!user) {
@@ -51,17 +50,20 @@ exports.login = async (req, res) => {
 
         res.json({ token, user: { id: user._id, username: user.username, email: user.email, role: user.role } });
     } catch (err) {
-        console.log(err)
+        console.log(err);
         res.status(500).json({ message: 'Server error', error: err.message });
     }
 };
 
 // Create or Update Profile
-// In your backend file
 exports.createOrUpdateProfile = async (req, res) => {
     try {
         const { userId, ...profileData } = req.body;
-        console.log(req.body); // For debugging purposes
+
+        // Add profileImage to profileData if a file is uploaded
+        if (req.file) {
+            profileData.profileImage = req.file.path;
+        }
 
         // Validate userId
         if (!userId) {
@@ -82,7 +84,6 @@ exports.createOrUpdateProfile = async (req, res) => {
     }
 };
 
-
 // Get user by ID
 exports.getUserById = async (req, res) => {
     try {
@@ -101,3 +102,22 @@ exports.getUserById = async (req, res) => {
         res.status(500).json({ message: 'Server error', error: err.message });
     }
 };
+
+
+// Get all mechanics by role
+exports.getAllMechanics = async (req, res) => {
+    try {
+        // Find all users where role is "mechanic"
+        const mechanics = await User.find({ role: 'mechanic' });
+
+        if (mechanics.length === 0) {
+            return res.status(404).json({ message: 'No mechanics found' });
+        }
+
+        res.json({ mechanics });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Server error', error: err.message });
+    }
+};
+
