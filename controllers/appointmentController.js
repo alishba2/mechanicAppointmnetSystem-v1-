@@ -32,6 +32,7 @@ exports.updateAppointmentStatus = async (req, res) => {
 // Get appointments by user ID
 exports.getAppointmentsByUserId = async (req, res) => {
     try {
+        console.log("hereeeeeeeeeeeeeeeeeeeeeeeee");
         const { userId } = req.params;
 
         // Find appointments by user ID

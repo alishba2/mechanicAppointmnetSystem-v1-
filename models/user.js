@@ -11,10 +11,9 @@ const userSchema = new mongoose.Schema({
     // Mechanic-specific fields
     skills: { type: [String] },
     yrsOfExperience: { type: Number },
-    availableTimeSlot: { type: String },
+    availableTimeSlots: { type: String },
     hourlyRating: { type: Number }
 });
 
 const User = mongoose.model('User', userSchema);
-
 module.exports = User;

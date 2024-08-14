@@ -9,7 +9,7 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 
 // Middleware
-app.use(cors({ origin: 'http://localhost:5173' })); // Allow requests from localhost:3000
+app.use(cors({ origin: 'http://localhost:3000' })); // Allow requests from localhost:3000
 app.use(bodyParser.json());
 
 // Connect to MongoD

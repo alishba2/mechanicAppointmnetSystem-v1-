@@ -59,6 +59,7 @@ exports.login = async (req, res) => {
 exports.createOrUpdateProfile = async (req, res) => {
     try {
         const { userId, ...profileData } = req.body;
+        console.log(profileData, "profileData");
 
         // Add profileImage to profileData if a file is uploaded
         if (req.file) {
@@ -77,6 +78,7 @@ exports.createOrUpdateProfile = async (req, res) => {
             return res.status(404).json({ message: 'User not found' });
         }
 
+        console.log("data saveddddddddd");
         res.json({ message: 'Profile updated successfully', user: updatedUser });
     } catch (err) {
         console.error(err);
