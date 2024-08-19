@@ -11,6 +11,7 @@ const {
   getAllCustomers,
   deleteUserById,
   forgotPassword,
+  getMechanicById,
   resetPassword,
   addReview, // Add this line
   getReviews, // Add this line
@@ -29,6 +30,7 @@ router.get("/customers", getAllCustomers);
 router.delete("/user/:id", deleteUserById);
 router.post("/forgot-password", forgotPassword);
 router.put("/reset-password/:token", resetPassword);
+router.get("/mechanics/:id", getMechanicById);
 
 // Review routes
 router.post("/mechanics/:id/reviews", addReview);

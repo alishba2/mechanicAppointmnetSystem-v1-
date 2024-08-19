@@ -318,3 +318,19 @@ exports.getReviews = async (req, res) => {
     res.status(500).json({ message: "Server error", error: err.message });
   }
 };
+// Get mechanic details by ID
+exports.getMechanicById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const mechanic = await User.findById(id);
+
+    if (!mechanic || mechanic.role !== "mechanic") {
+      return res.status(404).json({ message: "Mechanic not found" });
+    }
+
+    res.json({ mechanic, reviews: mechanic.reviews });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error", error: err.message });
+  }
+};
