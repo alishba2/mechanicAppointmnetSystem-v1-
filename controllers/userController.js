@@ -262,3 +262,59 @@ exports.resetPassword = async (req, res) => {
     res.status(500).json({ message: "Server error", error: err.message });
   }
 };
+
+exports.addReview = async (req, res) => {
+  try {
+    const { id } = req.params; // Mechanic's ID
+    const { rating, comment } = req.body; // Rating and comment from the request body
+    const userId = req.user.id; // Assuming you're using authentication middleware and req.user contains the logged-in user
+
+    // Find the mechanic by ID
+    const mechanic = await User.findById(id);
+
+    if (!mechanic || mechanic.role !== "mechanic") {
+      return res.status(404).json({ message: "Mechanic not found" });
+    }
+
+    // Create a new review
+    const newReview = {
+      userId,
+      rating,
+      comment,
+    };
+
+    // Add the review to the mechanic's reviews array
+    mechanic.reviews.push(newReview);
+
+    // Save the mechanic with the new review
+    await mechanic.save();
+
+    res
+      .status(201)
+      .json({ message: "Review added successfully", review: newReview });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error", error: err.message });
+  }
+};
+// Get all reviews for a mechanic
+exports.getReviews = async (req, res) => {
+  try {
+    const { id } = req.params; // Mechanic's ID
+
+    // Find the mechanic by ID and populate the user details for each review
+    const mechanic = await User.findById(id).populate(
+      "reviews.userId",
+      "username"
+    );
+
+    if (!mechanic || mechanic.role !== "mechanic") {
+      return res.status(404).json({ message: "Mechanic not found" });
+    }
+
+    res.json({ reviews: mechanic.reviews });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error", error: err.message });
+  }
+};

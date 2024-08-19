@@ -1,9 +1,7 @@
 const express = require("express");
 const multer = require("multer");
-
-// Multer storage configuration
-const storage = multer.memoryStorage();
 const path = require("path");
+
 const {
   register,
   login,
@@ -12,9 +10,10 @@ const {
   getAllMechanics,
   getAllCustomers,
   deleteUserById,
-
   forgotPassword,
   resetPassword,
+  addReview, // Add this line
+  getReviews, // Add this line
 } = require("../controllers/userController");
 
 const router = express.Router();
@@ -30,4 +29,9 @@ router.get("/customers", getAllCustomers);
 router.delete("/user/:id", deleteUserById);
 router.post("/forgot-password", forgotPassword);
 router.put("/reset-password/:token", resetPassword);
+
+// Review routes
+router.post("/mechanics/:id/reviews", addReview);
+router.get("/mechanics/:id/reviews", getReviews);
+
 module.exports = router;
