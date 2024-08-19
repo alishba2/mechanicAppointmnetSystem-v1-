@@ -35,5 +35,4 @@ router.get("/mechanics/:id", getMechanicById);
 // Review routes
 router.post("/mechanics/:id/reviews", addReview);
 router.get("/mechanics/:id/reviews", getReviews);
-
 module.exports = router;
