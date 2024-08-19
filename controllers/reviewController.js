@@ -26,10 +26,11 @@ exports.getAllReviews = async (req, res) => {
 
 // Get a single review by ID
 exports.getReviewById = async (req, res) => {
+    console.log("hereeeeeeeeeee");
 
-    console.log(req.params.id);
+    console.log(req.params.id, "tesssssssssssssssssss");
     try {
-        const review = await Review.findById(req.params.id);
+        const review = await Review.findById(req.params.id).populate('userId', 'username');
         if (!review) {
             return res.status(404).json({ message: 'Review not found' });
         }
