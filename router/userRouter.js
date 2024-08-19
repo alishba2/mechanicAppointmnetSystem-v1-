@@ -12,7 +12,9 @@ const {
   getAllMechanics,
   getAllCustomers,
   deleteUserById,
-  getAllMechanics,
+
+  forgotPassword,
+  resetPassword,
 } = require("../controllers/userController");
 
 const router = express.Router();
@@ -26,5 +28,6 @@ router.get("/user/:id", getUserById);
 router.get("/mechanics", getAllMechanics);
 router.get("/customers", getAllCustomers);
 router.delete("/user/:id", deleteUserById);
-router.get("/mechanics", getAllMechanics);
+router.post("/forgot-password", forgotPassword);
+router.put("/reset-password/:token", resetPassword);
 module.exports = router;
