@@ -4,7 +4,7 @@ const connectDB = require('./dbConn');
 const cors = require('cors'); // Add this line
 const user = require('./router/userRouter');
 const appointment = require('./router/appointmentRoute');
-
+const review = require('./router/reviewRoute');
 const app = express();
 const PORT = process.env.PORT || 3001;
 
@@ -30,6 +30,7 @@ app.get('/', (req, res) => {
 });
 app.use('/', user);
 app.use('/', appointment);
+app.use('/', review);
 
 // Start the server
 app.listen(PORT, () => {
